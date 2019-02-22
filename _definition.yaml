@@ -1,7 +1,6 @@
 ConnectorTitle: Zoho-Crm
 AccessCodeServiceEndpoint: https://accounts.zoho.com/oauth/v2/auth
 AccessTokenServiceEndpoint: https://accounts.zoho.com/oauth/v2/token
-ApiEndPoint: https://www.zohoapis.com/crm/v2
 UserName: hide
 UserPassword: hide
 ClientId: required
@@ -25,9 +24,6 @@ Custom2Hint: ''
 Custom3Label: Custom Field 3
 Custom3Hint: ''
 Scopes:
-- ScopeName: api
-  ScopeDescription: API Access
-  IsDefault: false
 - ScopeName: ZohoCRM.modules.all
   ScopeDescription: Access ZohoCmr Modules
   IsDefault: false
