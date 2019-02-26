@@ -49,7 +49,7 @@ api.convertResponse = function (response) {
   // iterate through each issue and extract id, title, etc. into a new array
   for (let i = 0; i < data.length; i++) {
     let raw = data[i];
-    let item = { id: raw.id, title: raw.Designation, description: raw.Description, link: raw.Company, raw: raw }
+    let item = { id: raw.id, title: raw.Designation, description: raw.Description, link: `https://crm.zoho.com/crm/`, raw: raw }
     items.push(item);
   }
 
