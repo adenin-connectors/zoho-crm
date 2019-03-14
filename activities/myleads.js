@@ -6,7 +6,8 @@ const api = require('./common/api');
 module.exports = async function (activity) {
   try {
     api.initialize(activity);
-    const response = await api('/Leads');
+    var pagination = cfActivity.pagination(activity);
+    const response = await api(`/Leads?page=${pagination.page}&per_page=${pagination.pageSize}`);
 
     if (!cfActivity.isResponseOk(activity, response)) {
       return;

@@ -1,2 +1,8 @@
+ServiceName: 'myleads'
 InterfaceName: items
 Description: List Of Leads
+APIDoc: ''
+Interfaces: 'search,pagination'
+RequiredScopes: ''
+AdditionalParameters:
+Method: ''
