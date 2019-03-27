@@ -12,8 +12,8 @@ module.exports = async (activity) => {
 
     let leadsStatus = {
       title: T('New Leads'),
-      url: `https://crm.zoho.com/crm/`,
-      urlLabel: T('All Leads')
+      link: `https://crm.zoho.com/crm/`,
+      linkLabel: T('All Leads')
     };
 
     let leadsCount = filteredLeads.length;
