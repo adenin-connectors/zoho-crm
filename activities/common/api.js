@@ -57,5 +57,37 @@ for (const x of helpers) {
   api[x] = (url, opts) => api(url, Object.assign({}, opts, { method }));
   api.stream[x] = (url, opts) => api.stream(url, Object.assign({}, opts, { method }));
 }
+//**filters leads based on provided dateRange */
+api.filterLeadsByDateRange = function (leads, dateRange) {
+  let filteredLeads = [];
+  let timeMin = new Date(dateRange.startDate).valueOf();
+  let timeMax = new Date(dateRange.endDate).valueOf();
 
+  for (let i = 0; i < leads.length; i++) {
+    let createdAtMilis = new Date(leads[i].Created_Time).valueOf();
+
+    if (createdAtMilis > timeMin && createdAtMilis < timeMax) {
+      filteredLeads.push(leads[i]);
+    }
+  }
+
+  return filteredLeads;
+};
+
+//**maps response data to items */
+api.convertResponse = function (response) {
+  let items = [];
+  let data = [];
+  if (response.body.data) {
+    data = response.body.data;
+  }
+
+  for (let i = 0; i < data.length; i++) {
+    let raw = data[i];
+    let item = { id: raw.id, title: raw.Designation, description: raw.Description, link: `https://crm.zoho.com/crm/`, raw: raw }
+    items.push(item);
+  }
+
+  return { items: items };
+}
 module.exports = api;

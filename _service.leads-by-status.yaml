@@ -1,0 +1,8 @@
+ServiceName: 'leads-by-status'
+InterfaceName: 'chart'
+Description: 'Leads By Status'
+APIDoc: ''
+Interfaces: 'daterange'
+RequiredScopes: ''
+AdditionalParameters:
+Method: ''

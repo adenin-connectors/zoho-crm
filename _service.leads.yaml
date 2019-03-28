@@ -1,4 +1,4 @@
-ServiceName: 'myleads'
+ServiceName: 'leads'
 InterfaceName: items
 Description: List Of Leads
 APIDoc: ''

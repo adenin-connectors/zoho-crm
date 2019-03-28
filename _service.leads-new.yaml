@@ -1,6 +1,6 @@
-ServiceName: 'myleads-new'
+ServiceName: 'leads-new'
 InterfaceName: 'status'
-Description: 'My New Leads'
+Description: 'New Leads'
 APIDoc: ''
 Interfaces: 'daterange'
 RequiredScopes: ''
