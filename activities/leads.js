@@ -3,13 +3,14 @@ const api = require('./common/api');
 
 module.exports = async function (activity) {
   try {
-    var pagination = Activity.pagination();
+    var pagination = $.pagination(activity);
+    api.initialize(activity);
     const response = await api(`/Leads?page=${pagination.page}&per_page=${pagination.pageSize}`);
 
-    if (Activity.isErrorResponse(response, [200,204])) return;
+    if ($.isErrorResponse(activity, response, [200, 204])) return;
 
     activity.Response.Data = api.convertResponse(response);
   } catch (error) {
-    Activity.handleError(error);
+    $.handleError(activity, error);
   }
 };

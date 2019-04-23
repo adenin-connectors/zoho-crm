@@ -3,11 +3,12 @@ const api = require('./common/api');
 
 module.exports = async (activity) => {
   try {
+    api.initialize(activity);
     const response = await api(`/Leads`);
 
-    if (Activity.isErrorResponse(response, [200,204])) return;
+    if ($.isErrorResponse(activity, response, [200, 204])) return;
 
-    var dateRange = Activity.dateRange("today");
+    var dateRange = $.dateRange(activity, "today");
     let filteredLeads = [];
     if (response.body.data) {
       filteredLeads = api.filterLeadsByDateRange(response.body.data, dateRange);
@@ -15,7 +16,7 @@ module.exports = async (activity) => {
 
     activity.Response.Data = mapResponseToChartData(filteredLeads);
   } catch (error) {
-    Activity.handleError(error);
+    $.handleError(activity, error);
   }
 };
 //** maps response data to data format usable by chart */
@@ -55,7 +56,6 @@ function mapResponseToChartData(leads) {
         }
       },
       template: 'bar',
-      palette: 'office.Office6'
     },
     _settings: {}
   };
