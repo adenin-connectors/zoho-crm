@@ -3,20 +3,21 @@ const api = require('./common/api');
 
 module.exports = async (activity) => {
   try {
+    api.initialize(activity);
     const response = await api(`/Leads`);
 
-    if (Activity.isErrorResponse(response, [200,204])) return;
+    if ($.isErrorResponse(activity, response, [200, 204])) return;
 
-    var dateRange = Activity.dateRange("today");
+    var dateRange = $.dateRange(activity, "today");
     let filteredLeads = [];
     if (response.body.data) {
       filteredLeads = api.filterLeadsByDateRange(response.body.data, dateRange);
     }
 
     let leadsStatus = {
-      title: T('New Leads'),
+      title: T(activity, 'New Leads'),
       link: `https://crm.zoho.com/crm/`,
-      linkLabel: T('All Leads')
+      linkLabel: T(activity, 'All Leads')
     };
 
     let leadsCount = filteredLeads.length;
@@ -24,7 +25,7 @@ module.exports = async (activity) => {
     if (leadsCount != 0) {
       leadsStatus = {
         ...leadsStatus,
-        description: leadsCount > 1 ? T("You have {0} new leads.", leadsCount) : T("You have 1 new lead."),
+        description: leadsCount > 1 ? T(activity, "You have {0} new leads.", leadsCount) : T(activity, "You have 1 new lead."),
         color: 'blue',
         value: leadsCount,
         actionable: true
@@ -32,13 +33,13 @@ module.exports = async (activity) => {
     } else {
       leadsStatus = {
         ...leadsStatus,
-        description: T(`You have no new leads.`),
+        description: T(activity, `You have no new leads.`),
         actionable: false
       };
     }
 
     activity.Response.Data = leadsStatus;
   } catch (error) {
-    Activity.handleError(error);
+    $.handleError(activity, error);
   }
 };
