@@ -4,8 +4,13 @@ const api = require('./common/api');
 module.exports = async function (activity) {
   try {
     api.initialize(activity);
+    const currentUser = await api(`/users?type=CurrentUser`);
+    if ($.isErrorResponse(activity, currentUser, [200, 204])) return;
+    let currentUserId = currentUser.body.users[0].id;
+
     var pagination = $.pagination(activity);
-    const response = await api(`/Leads?page=${pagination.page}&per_page=${pagination.pageSize}`);
+    const response = await api(`/Leads/search?criteria=(Owner.id:equals:${currentUserId})` +
+      `&page=${pagination.page}&per_page=${pagination.pageSize}`);
     if ($.isErrorResponse(activity, response, [200, 204])) return;
 
     activity.Response.Data.items = api.convertResponse(response.body.data);

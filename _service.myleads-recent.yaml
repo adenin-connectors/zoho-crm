@@ -1,7 +1,7 @@
 InterfaceName: 'items'
-Description: 'Search Leads'
+Description: 'My Recent Leads'
 APIDoc: ''
-Interfaces: 'search,pagination'
+Interfaces: 'daterange,pagination'
 RequiredScopes: ''
 AdditionalParameters:
 Method: ''

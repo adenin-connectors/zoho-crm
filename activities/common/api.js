@@ -77,11 +77,11 @@ api.filterLeadsByDateRange = function (leads, dateRange) {
 };
 
 //**maps response data to items */
-api.convertResponse = function (response) {
+api.convertResponse = function (leads) {
   const items = [];
   let data = [];
 
-  if (response.body.data) data = response.body.data;
+  if (leads) data = leads;
 
   for (let i = 0; i < data.length; i++) {
     const raw = data[i];
@@ -89,16 +89,15 @@ api.convertResponse = function (response) {
       id: raw.id,
       title: raw.Designation,
       description: raw.Description,
-      link: 'https://crm.zoho.com/crm/',
+      date: new Date(raw.Created_Time).toISOString(),
+      link: `https://crm.zoho.com/crm/${_activity.Context.connector.custom1}/tab/Leads/${raw.id}`,
       raw: raw
     };
 
     items.push(item);
   }
 
-  return {
-    items: items
-  };
+  return { items };
 };
 
 module.exports = api;
