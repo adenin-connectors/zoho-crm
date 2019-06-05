@@ -4,12 +4,27 @@ const api = require('./common/api');
 module.exports = async function (activity) {
   try {
     api.initialize(activity);
-    var pagination = $.pagination(activity);
-    const response = await api(`/Leads?page=${pagination.page}&per_page=${pagination.pageSize}`);
+    let allLeads = [];
+    let page = 1;
+    let maxRecords = 200;
+    let response = await api(`/Leads?page=${page}&per_page=${maxRecords}`);
     if ($.isErrorResponse(activity, response, [200, 204])) return;
+    allLeads.push(...response.body.data);
 
-    activity.Response.Data.items = api.convertResponse(response.body.data);
-    let value = activity.Response.Data.items.items.length;
+    while (response.body.info.more_records) {
+      page++;
+      response = await api(`/Leads?page=${page}&per_page=${maxRecords}`);
+      if ($.isErrorResponse(activity, response)) return;
+      allLeads.push(...response.body.data);
+    }
+
+    let dateRange = $.dateRange(activity);
+    let leads = api.filterLeadsByDateRange(allLeads, dateRange)
+    let value = leads.length;
+    var pagination = $.pagination(activity);
+    leads = api.paginateItems(leads, pagination);
+
+    activity.Response.Data.items = api.convertResponse(leads);
     activity.Response.Data.title = T(activity, 'Active Leads');
     activity.Response.Data.link = `https://crm.zoho.com/crm/${activity.Context.connector.custom1}/tab/Leads`;
     activity.Response.Data.linkLabel = T(activity, 'All Leads');

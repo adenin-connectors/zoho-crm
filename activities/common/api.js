@@ -99,5 +99,35 @@ api.convertResponse = function (leads) {
 
   return { items };
 };
+//**filters leads based on provided dateRange */
+api.filterLeadsByDateRange = function (leads, dateRange) {
+  let filteredLeads = [];
+  const timeMin = Date.parse(dateRange.startDate);
+  const timeMax = Date.parse(dateRange.endDate);
 
+  for (let i = 0; i < leads.length; i++) {
+    const lead = leads[i];
+    if (lead.addedAt > timeMin && lead.addedAt < timeMax) {
+      filteredLeads.push(lead);
+    }
+  }
+
+  return filteredLeads;
+};
+//** paginate items[] based on provided pagination */
+api.paginateItems = function (items, pagination) {
+  let pagiantedItems = [];
+  const pageSize = parseInt(pagination.pageSize);
+  const offset = (parseInt(pagination.page) - 1) * pageSize;
+
+  if (offset > items.length) return pagiantedItems;
+
+  for (let i = offset; i < offset + pageSize; i++) {
+    if (i >= items.length) {
+      break;
+    }
+    pagiantedItems.push(items[i]);
+  }
+  return pagiantedItems;
+};
 module.exports = api;
