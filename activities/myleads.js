@@ -4,7 +4,7 @@ const api = require('./common/api');
 module.exports = async function (activity) {
   try {
     api.initialize(activity);
-    const currentUser = await api(`/users?type='CurrentUser'`);
+    const currentUser = await api(`/users?type=CurrentUser`);
     if ($.isErrorResponse(activity, currentUser, [200, 204])) return;
     let currentUserId = currentUser.body.users[0].id;
 
