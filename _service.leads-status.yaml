@@ -1,8 +1,0 @@
-ServiceName: 'leads-status'
-InterfaceName: 'status'
-Description: 'Leads Status'
-APIDoc: ''
-Interfaces: 'search,pagination'
-RequiredScopes: ''
-AdditionalParameters:
-Method: ''

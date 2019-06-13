@@ -77,11 +77,11 @@ api.filterLeadsByDateRange = function (leads, dateRange) {
 };
 
 //**maps response data to items */
-api.convertResponse = function (response) {
+api.convertResponse = function (leads) {
   const items = [];
   let data = [];
 
-  if (response.body.data) data = response.body.data;
+  if (leads) data = leads;
 
   for (let i = 0; i < data.length; i++) {
     const raw = data[i];
@@ -89,16 +89,45 @@ api.convertResponse = function (response) {
       id: raw.id,
       title: raw.Designation,
       description: raw.Description,
-      link: 'https://crm.zoho.com/crm/',
+      date: new Date(raw.Created_Time).toISOString(),
+      link: `https://crm.zoho.com/crm/${_activity.Context.connector.custom1}/tab/Leads/${raw.id}`,
       raw: raw
     };
 
     items.push(item);
   }
 
-  return {
-    items: items
-  };
+  return { items };
 };
+//**filters leads based on provided dateRange */
+api.filterLeadsByDateRange = function (leads, dateRange) {
+  let filteredLeads = [];
+  const timeMin = Date.parse(dateRange.startDate);
+  const timeMax = Date.parse(dateRange.endDate);
 
+  for (let i = 0; i < leads.length; i++) {
+    const lead = leads[i];
+    if (lead.addedAt > timeMin && lead.addedAt < timeMax) {
+      filteredLeads.push(lead);
+    }
+  }
+
+  return filteredLeads;
+};
+//** paginate items[] based on provided pagination */
+api.paginateItems = function (items, pagination) {
+  let pagiantedItems = [];
+  const pageSize = parseInt(pagination.pageSize);
+  const offset = (parseInt(pagination.page) - 1) * pageSize;
+
+  if (offset > items.length) return pagiantedItems;
+
+  for (let i = offset; i < offset + pageSize; i++) {
+    if (i >= items.length) {
+      break;
+    }
+    pagiantedItems.push(items[i]);
+  }
+  return pagiantedItems;
+};
 module.exports = api;
