@@ -50,7 +50,7 @@ api.initialize = (activity) => {
   _activity = activity;
 };
 
-api.stream = (url, opts) => got(url, Object.assign({}, opts, {
+api.stream = (url, opts) => api(url, Object.assign({}, opts, {
   json: false,
   stream: true
 }));
@@ -97,7 +97,7 @@ api.convertResponse = function (leads) {
     items.push(item);
   }
 
-  return { items };
+  return items;
 };
 //**filters leads based on provided dateRange */
 api.filterLeadsByDateRange = function (leads, dateRange) {
@@ -106,9 +106,9 @@ api.filterLeadsByDateRange = function (leads, dateRange) {
   const timeMax = Date.parse(dateRange.endDate);
 
   for (let i = 0; i < leads.length; i++) {
-    const lead = leads[i];
-    if (lead.addedAt > timeMin && lead.addedAt < timeMax) {
-      filteredLeads.push(lead);
+    const leadCreateTime = Date.parse(leads[i].Created_Time);
+    if (leadCreateTime > timeMin && leadCreateTime < timeMax) {
+      filteredLeads.push(leads[i]);
     }
   }
 
