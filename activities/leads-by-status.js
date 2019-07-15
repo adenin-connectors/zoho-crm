@@ -8,7 +8,7 @@ module.exports = async (activity) => {
 
     if ($.isErrorResponse(activity, response, [200, 204])) return;
 
-    var dateRange = $.dateRange(activity, "today");
+    var dateRange = $.dateRange(activity);
     let filteredLeads = [];
     if (response.body.data) {
       filteredLeads = api.filterLeadsByDateRange(response.body.data, dateRange);
