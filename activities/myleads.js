@@ -36,11 +36,11 @@ module.exports = async function (activity) {
       activity.Response.Data.link = `https://crm.zoho.com/crm/${activity.Context.connector.custom1}/tab/Leads`;
       activity.Response.Data.linkLabel = T(activity, 'All Leads');
       activity.Response.Data.actionable = value > 0;
+      activity.Response.Data.thumbnail = 'https://www.adenin.com/assets/images/wp-images/logo/zoho-crm.svg';
 
       if (value > 0) {
         activity.Response.Data.value = value;
         activity.Response.Data.date = activity.Response.Data.items[0].date;
-        activity.Response.Data.color = 'blue';
         activity.Response.Data.description = value > 1 ? T(activity, "You have {0} leads.", value)
           : T(activity, "You have 1 lead.");
       } else {

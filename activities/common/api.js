@@ -87,8 +87,8 @@ api.convertResponse = function (leads) {
     const raw = data[i];
     const item = {
       id: raw.id,
-      title: raw.Designation,
-      description: raw.Description,
+      title: raw.Full_Name,
+      description: `${raw.Designation} at ${raw.Company}`,
       date: new Date(raw.Created_Time).toISOString(),
       link: `https://crm.zoho.com/crm/${_activity.Context.connector.custom1}/tab/Leads/${raw.id}`,
       raw: raw
